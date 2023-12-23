@@ -8,22 +8,12 @@
 	<name>spring-summary</name>
 	<description>spring-summary</description>
 	<packaging>pom</packaging>
-<!--	<modules>-->
-<!--		<module>spring-rabbitmq</module>-->
-<!--		<module>spring-flow-control</module>-->
-<!--	</modules>-->
+	<modules>
+		<module>spring-rabbitmq</module>
+		<module>spring-flow-control</module>
+	</modules>
 
 	<build>
 		<finalName>spring-summary</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 </project>
