@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2023/12/20
  * @desc
  */
-//@Configuration
+@Configuration
 public class TransactionRabbitMQConfig {
     private static final Logger log = LoggerFactory.getLogger(RabbitMQConfig.class);
 

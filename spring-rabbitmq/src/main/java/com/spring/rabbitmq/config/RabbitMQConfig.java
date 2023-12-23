@@ -21,7 +21,7 @@ import java.util.Map;
  * @date 2023/12/19
  * @desc
  */
-@Configuration
+//@Configuration
 public class RabbitMQConfig {
     private static final Logger log = LoggerFactory.getLogger(RabbitMQConfig.class);
 
