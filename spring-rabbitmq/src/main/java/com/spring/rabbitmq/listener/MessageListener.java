@@ -1,6 +1,7 @@
 package com.spring.rabbitmq.listener;
 
 
+import com.spring.rabbitmq.constant.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
@@ -48,6 +49,21 @@ public class MessageListener {
             exchange = @Exchange(value = "test.exchange3"), key = "test.routing3")}, concurrency = "5", ackMode = "MANUAL")
     public void test3(String msg) {
         System.out.println(msg);
+    }
+
+    @RabbitListener(queues = Constants.QUEUE)
+    public void configTest(Channel channel, Message message) {
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+        try {
+            logger.info("queue = test, msg={}", new String(message.getBody()));
+            channel.basicAck(deliveryTag, Boolean.FALSE);
+        } catch (Exception e) {
+            try {
+                channel.basicNack(deliveryTag, Boolean.FALSE, true);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package com.spring.rabbitmq.controller;
 
+import com.spring.rabbitmq.constant.Constants;
 import com.spring.rabbitmq.producer.TransactionProducer;
 import jakarta.annotation.Resource;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -39,6 +40,15 @@ public class SendMessageController {
         //带有发送确认的方式。
 
         transactionProducer.sendMessage(message);
+        return "success";
+    }
+
+    @PostMapping("/send4")
+    public String send4(String message) {
+        //带有发送确认的方式。
+        //带有发送确认的方式。
+        CorrelationData correlationData = new CorrelationData(message);
+        rabbitTemplate.convertAndSend(Constants.EXCHANGE, Constants.ROUTING, message, correlationData);
         return "success";
     }
 

@@ -1,11 +1,17 @@
 package com.spring.rabbitmq.config;
 
+import com.spring.rabbitmq.constant.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -15,7 +21,7 @@ import org.springframework.context.annotation.Bean;
  * @date 2023/12/19
  * @desc
  */
-//@Configuration
+@Configuration
 public class RabbitMQConfig {
     private static final Logger log = LoggerFactory.getLogger(RabbitMQConfig.class);
 
@@ -51,6 +57,27 @@ public class RabbitMQConfig {
                 log.info("returns callback,exchange={},routing={},message={}", message.getExchange(), message.getRoutingKey(), message.getReplyCode() + message.getReplyText())
         );
         return rabbitTemplate;
+    }
+
+    @Bean
+    public Exchange configExchange() {
+        Exchange exchange = new DirectExchange(Constants.EXCHANGE, Boolean.TRUE, Boolean.FALSE);
+        return exchange;
+    }
+
+    @Bean
+    public Queue configQueue() {
+        Map<String, Object> arguments = new HashMap();
+        arguments.put("", "");
+        return new Queue(Constants.QUEUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, arguments);
+
+    }
+
+    @Bean
+    public Binding configBinding(Queue configQueue, Exchange configExchange) {
+        Map<String, Object> arguments = new HashMap();
+        arguments.put("", "");
+        return BindingBuilder.bind(configQueue).to(configExchange).with(Constants.ROUTING).and(arguments);
     }
 
 }
