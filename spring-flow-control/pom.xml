@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.example</groupId>
+    <groupId>com.spring.flow.control</groupId>
     <artifactId>spring-flow-control</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-flow-control</name>
