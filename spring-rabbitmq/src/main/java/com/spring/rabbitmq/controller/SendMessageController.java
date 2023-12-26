@@ -27,15 +27,16 @@ public class SendMessageController {
         return "success";
     }
 
-    @PostMapping("/send2")
+    @PostMapping("/single")
     public String send2(String message) {
         //带有发送确认的方式。
         CorrelationData correlationData = new CorrelationData(message);
-        rabbitTemplate.convertAndSend("test.exchange", "test.routing", message, correlationData);
+        rabbitTemplate.convertAndSend("single.test.exchange", "single.test.routing", message, correlationData);
         return "success";
     }
+
     //发送事务消息
-    @PostMapping("/send3")
+    @PostMapping("/transaction")
     public String send3(String message) {
         //带有发送确认的方式。
 
@@ -43,7 +44,7 @@ public class SendMessageController {
         return "success";
     }
 
-    @PostMapping("/send4")
+    @PostMapping("/direct")
     public String send4(String message) {
         //带有发送确认的方式。
         //带有发送确认的方式。
@@ -51,5 +52,20 @@ public class SendMessageController {
         rabbitTemplate.convertAndSend(Constants.EXCHANGE, Constants.ROUTING, message, correlationData);
         return "success";
     }
+
+    @PostMapping("/fanout")
+    public String fanout(String message) {
+        CorrelationData correlationData = new CorrelationData(message);
+        rabbitTemplate.convertAndSend(Constants.FANOUT_EXCHANGE, "", message, correlationData);
+        return "success";
+    }
+
+    @PostMapping("/topic")
+    public String topic(String message) {
+        CorrelationData correlationData = new CorrelationData(message);
+        rabbitTemplate.convertAndSend(Constants.TOPIC_EXCHANGE, "topic.test." + message, message, correlationData);
+        return "success";
+    }
+
 
 }

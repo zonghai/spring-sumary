@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * 带有事务的消息生产者
+ *
  * @auth 十三先生
  * @date 2023/12/20
  * @desc
@@ -20,11 +22,11 @@ public class TransactionProducer {
     @Transactional(rollbackFor = Exception.class, transactionManager = "rabbitTransactionManager")
     public void sendMessage(String message) {
         //捕获异常不抛出，消息会发送成功的。
-        try{
+        try {
             CorrelationData correlationData = new CorrelationData(message);
             rabbitTemplate.convertAndSend("test.exchange", "test.routing", message, correlationData);
             throw new RuntimeException("异常了");
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }

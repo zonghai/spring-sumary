@@ -62,6 +62,18 @@
     并且新建事务管理器 RabbitTransactionManager
     再发送消息的方法加注解 @Transactional(rollbackFor = Exception.class,transactionManager = "rabbitTransactionManager")
 
+**exchange**
+
+    DirectExchange 精准匹配
+    TopicExchange  模糊匹配
+    FanoutExchange 广播 发消息到与之绑定的队列，与RocketMQ的广播不是一个意思；发消息时routing为空即可。
+    HeaderExchange 不常用。
+
+**消息过期**
+    
+    队列级别
+    消息级别
+
 **常用命令**
 
 **设置内存大小**

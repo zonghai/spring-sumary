@@ -8,7 +8,24 @@ package com.spring.rabbitmq.constant;
 public class Constants {
 
 
-    public static final String QUEUE = "test.config";
-    public static final String EXCHANGE = "test.config";
-    public static final String ROUTING = "test.config";
+    /**
+     * direct exchange
+     **/
+    public static final String QUEUE = "direct.test";
+    public static final String EXCHANGE = "direct.test";
+    public static final String ROUTING = "direct.test";
+
+    /**
+     * topic exchange
+     **/
+    public static final String TOPIC_QUEUE = "topic.test";
+    public static final String TOPIC_EXCHANGE = "topic.test";
+    public static final String TOPIC_ROUTING = "topic.test.*";
+
+    /**
+     * fanout exchange
+     **/
+    public static final String FANOUT_QUEUE = "fanout.test";
+    public static final String FANOUT_EXCHANGE = "fanout.test";
+
 }
