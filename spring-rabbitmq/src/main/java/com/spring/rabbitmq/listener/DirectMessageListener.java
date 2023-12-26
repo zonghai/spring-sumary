@@ -41,7 +41,7 @@ public class DirectMessageListener {
     @RabbitListener(queues = Constants.QUEUE)
     public void configTest(Channel channel, Message message) {
         try {
-            logger.info("queue = test, msg={}", new String(message.getBody()));
+            logger.info("queue ={}, msg={}", Constants.QUEUE, new String(message.getBody()));
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), Boolean.FALSE);
         } catch (Exception e) {
             try {

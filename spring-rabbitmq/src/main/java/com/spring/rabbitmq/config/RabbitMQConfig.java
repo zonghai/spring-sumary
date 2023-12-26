@@ -120,5 +120,25 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(fanoutQueue).to(fanoutExchange);
     }
 
+    /**********************FanoutExchange***************************/
+    @Bean("headerExchange")
+    public HeadersExchange headerExchange() {
+        HeadersExchange exchange = new HeadersExchange(Constants.HEADER_EXCHANGE, Boolean.TRUE, Boolean.FALSE);
+        return exchange;
+    }
+
+    @Bean("headerQueue")
+    public Queue headerQueue() {
+        Map<String, Object> arguments = new HashMap();
+        arguments.put("", "");
+        return new Queue(Constants.HEADER_QUEUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, arguments);
+    }
+    @Bean
+    Binding nameBinding() {
+        return BindingBuilder.bind(headerQueue())
+                .to(headerExchange())
+                //如果将来消息头部中包含 name 属性，就算匹配成功
+                .where("name").exists();
+    }
 
 }

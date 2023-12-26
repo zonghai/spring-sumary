@@ -27,5 +27,20 @@ public class Constants {
      **/
     public static final String FANOUT_QUEUE = "fanout.test";
     public static final String FANOUT_EXCHANGE = "fanout.test";
+    /**
+     * header exchange
+     **/
+    public static final String HEADER_QUEUE = "header.test";
+    public static final String HEADER_EXCHANGE = "header.test";
+
+
+
+    /**
+     * single consumer
+     * **/
+    public static final String SINGLE_QUEUE = "single.test";
+    public static final String SINGLE_EXCHANGE = "single.test";
+    public static final String SINGLE_ROUTING = "single.test";
+
 
 }
