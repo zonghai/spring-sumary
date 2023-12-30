@@ -16,7 +16,7 @@ public class PullMessageController {
     private PullMessageListener pullMessageListener;
 
 
-    @GetMapping("/pull")
+    @GetMapping("/pullconsume")
     public String pullMessage(String queue) {
 
         return pullMessageListener.pullMessage(queue) + queue;

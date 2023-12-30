@@ -24,8 +24,8 @@ public class PullMessageListener {
             boolean isContinue = Boolean.TRUE;
             int count = 0;
             while (isContinue) {
+                //没有消息的时候 response 为空
                 GetResponse response = channel.basicGet(queue, Boolean.FALSE);
-
                 if (null == response || response.getMessageCount() < 0) {
                     isContinue = Boolean.FALSE;
                     continue;

@@ -42,5 +42,14 @@ public class Constants {
     public static final String SINGLE_EXCHANGE = "single.test";
     public static final String SINGLE_ROUTING = "single.test";
 
+    /**
+     * single consumer
+     * **/
+    public static final String PULL_QUEUE = "pull.test";
+    public static final String PULL_EXCHANGE = "pull.test";
+    public static final String PULL_ROUTING = "pull.test";
+
+
+
 
 }

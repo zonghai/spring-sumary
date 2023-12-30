@@ -78,6 +78,26 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(directQueue).to(directExchange).with(Constants.ROUTING).and(arguments);
     }
 
+    @Bean("pullExchange")
+    public Exchange pullExchange() {
+        Exchange exchange = new DirectExchange(Constants.PULL_EXCHANGE, Boolean.TRUE, Boolean.FALSE);
+        return exchange;
+    }
+
+    @Bean("pullQueue")
+    public Queue pullQueue() {
+        Map<String, Object> arguments = new HashMap();
+        arguments.put("", "");
+        return new Queue(Constants.PULL_QUEUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, arguments);
+    }
+
+    @Bean("pullBinding")
+    public Binding pullBinding(@Qualifier("pullQueue") Queue directQueue, @Qualifier("pullExchange") Exchange directExchange) {
+        Map<String, Object> arguments = new HashMap();
+        arguments.put("", "");
+        return BindingBuilder.bind(directQueue).to(directExchange).with(Constants.PULL_ROUTING).and(arguments);
+    }
+
     /**********************TopicExchange***************************/
     @Bean("topicExchange")
     public TopicExchange topicExchange() {
@@ -133,10 +153,10 @@ public class RabbitMQConfig {
         arguments.put("", "");
         return new Queue(Constants.HEADER_QUEUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, arguments);
     }
+
     @Bean
     Binding nameBinding() {
-        return BindingBuilder.bind(headerQueue())
-                .to(headerExchange())
+        return BindingBuilder.bind(headerQueue()).to(headerExchange())
                 //如果将来消息头部中包含 name 属性，就算匹配成功
                 .where("name").exists();
     }
