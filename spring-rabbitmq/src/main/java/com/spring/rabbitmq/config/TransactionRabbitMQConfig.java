@@ -42,6 +42,8 @@ public class TransactionRabbitMQConfig {
     @Bean
     public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        //发送方的和消费方使用不同的connection 避免因为channel数量达到上限导致为，或MQ限流导致问题。
+        rabbitTemplate.setUsePublisherConnection(Boolean.TRUE);
         //必须设置为true，否则消息消息路由失败也无法触发Return回调
         rabbitTemplate.setMandatory(Boolean.TRUE);
         //ack=false 需要自己去处理表示 producer发到exchange失败。
