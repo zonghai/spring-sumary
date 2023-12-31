@@ -51,5 +51,15 @@ public class Constants {
 
 
 
+    /**
+     * ttl  发消息的时候 设置消息的过期时间
+     * **/
+    public static final String TTL_MSG_QUEUE = "ttl.msg.test";
+    public static final String TTL_MSG_EXCHANGE = "ttl.msg.test";
+    public static final String TTL_MSG_ROUTING = "ttl.msg.test";
+
+
+
+
 
 }

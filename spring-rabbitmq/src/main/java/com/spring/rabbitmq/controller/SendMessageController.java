@@ -2,6 +2,7 @@ package com.spring.rabbitmq.controller;
 
 import com.spring.rabbitmq.constant.Constants;
 import com.spring.rabbitmq.producer.TransactionProducer;
+import com.spring.rabbitmq.producer.TtlProducer;
 import jakarta.annotation.Resource;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -20,6 +21,8 @@ public class SendMessageController {
 
     @Resource
     private TransactionProducer transactionProducer;
+    @Resource
+    private TtlProducer ttlProducer;
     @Resource
     private RabbitTemplate rabbitTemplate;
 
@@ -77,5 +80,10 @@ public class SendMessageController {
         return "success";
     }
 
+    @PostMapping("/ttl")
+    public String ttl(String message) {
+        ttlProducer.sendTtlMessage(message);
+        return "success" + message;
+    }
 
 }
