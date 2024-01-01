@@ -142,7 +142,7 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(fanoutQueue).to(fanoutExchange);
     }
 
-    /**********************FanoutExchange***************************/
+    /**********************HeaderExchange***************************/
     @Bean("headerExchange")
     public HeadersExchange headerExchange() {
         HeadersExchange exchange = new HeadersExchange(Constants.HEADER_EXCHANGE, Boolean.TRUE, Boolean.FALSE);
@@ -156,11 +156,34 @@ public class RabbitMQConfig {
         return new Queue(Constants.HEADER_QUEUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, arguments);
     }
 
-    @Bean
-    Binding nameBinding() {
+    @Bean("headerBinding")
+    Binding headerBinding() {
         return BindingBuilder.bind(headerQueue()).to(headerExchange())
                 //如果将来消息头部中包含 name 属性，就算匹配成功
                 .where("name").exists();
+    }
+
+    /**********************Delay Exchange 使用插件***************************/
+    @Bean("delayExchange")
+    public CustomExchange delayExchange() {
+        Map<String, Object> arguments = new HashMap();
+        arguments.put("x-delayed-type", "direct");
+        CustomExchange exchange = new CustomExchange(Constants.DELAY_MSG_EXCHANGE, "x-delayed-message", Boolean.TRUE, Boolean.FALSE,arguments);
+        return exchange;
+    }
+
+    @Bean("delayQueue")
+    public Queue delayQueue() {
+        Map<String, Object> arguments = new HashMap();
+        arguments.put("", "");
+        return new Queue(Constants.DELAY_MSG_QUEUE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, arguments);
+    }
+
+    @Bean
+    Binding delayBinding() {
+        Map<String, Object> arguments = new HashMap();
+        arguments.put("", "");
+        return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(Constants.DELAY_MSG_ROUTING).and(arguments);
     }
 
 }

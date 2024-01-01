@@ -71,9 +71,25 @@
 
 **消息过期**
     
-    队列级别
-    消息级别
-
+    过期时间TTL（Time To Live）
+    过期时间TTL表示可以对消息设置预期的时间，在这个时间内都可以被消费者接收获取；过了之后消息将自动被删除。
+    目前有两种方法可以设置
+        第一种方法是通过队列属性设置，队列中所有消息都有相同的TTL。
+        第二种方法是对消息进行单独设置，每条消息TTL可以不同。
+        当同时指定了 queue 和 message 的 TTL 值，则两者中较小的那个才会起作用。
+    延时队列
+        通过插件实现
+        插件下载地址：https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases
+        安装命令 /Users/zonghai/tools/rabbitmq_server-3.8.16/sbin/rabbitmq-plugins enable rabbitmq_delayed_message_exchange
+        执行完成，重启RabbitMQ 即安装完成。
+        发消息时设置：message.getMessageProperties().setHeader("x-delay", "过期时间，单位毫秒")；本人测试时，配置returns callback 会有这个提示 "returns callback,exchange=delay.msg.test,routing=delay.msg.test,message=312NO_ROUTE"
+        原理：
+            RabbitMq通过使用rabbitmq_delayed_message_exchange插件实现延迟消息。
+            它与TTL方式不同的是，TTL方式存放在死信队列(dalayqueue) 里，它是基于插件存放消息放在延时交换机里面（x-delayed-message exchange） 
+            生产者将消息(msg)和路由键(routekey)发送指定的延时交换机(exchange)上
+            延时交换机(exchange)存储消息等待消息到期根据路由键(routekey)找到绑定自己的队列 (queue)并把消息给它
+            队列(queue)再把消息发送给监听它的消费者(customer）
+        
 **常用命令**
 
 **设置内存大小**

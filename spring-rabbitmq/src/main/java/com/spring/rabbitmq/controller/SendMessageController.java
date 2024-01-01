@@ -1,6 +1,7 @@
 package com.spring.rabbitmq.controller;
 
 import com.spring.rabbitmq.constant.Constants;
+import com.spring.rabbitmq.producer.DelayProducer;
 import com.spring.rabbitmq.producer.TransactionProducer;
 import com.spring.rabbitmq.producer.TtlProducer;
 import jakarta.annotation.Resource;
@@ -23,6 +24,8 @@ public class SendMessageController {
     private TransactionProducer transactionProducer;
     @Resource
     private TtlProducer ttlProducer;
+    @Resource
+    private DelayProducer delayProducer;
     @Resource
     private RabbitTemplate rabbitTemplate;
 
@@ -85,5 +88,12 @@ public class SendMessageController {
         ttlProducer.sendTtlMessage(message);
         return "success" + message;
     }
+
+    @PostMapping("/delay")
+    public String delay(String message) {
+        delayProducer.sendDelayMessage(message);
+        return "success";
+    }
+
 
 }

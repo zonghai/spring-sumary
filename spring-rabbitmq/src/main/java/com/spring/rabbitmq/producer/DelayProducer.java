@@ -11,12 +11,11 @@ import org.springframework.stereotype.Component;
 
 /**
  * @auth 十三先生
- * @date 2023/12/31
+ * @date 2024/1/1
  * @desc
  */
 @Component
-public class TtlProducer {
-
+public class DelayProducer {
     @Resource
     private RabbitTemplate rabbitTemplate;
 
@@ -27,15 +26,15 @@ public class TtlProducer {
      *
      * @param message
      */
-    public void sendTtlMessage(String message) {
+    public void sendDelayMessage(String message) {
         MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
             @Override
             public Message postProcessMessage(Message message) throws AmqpException {
-                message.getMessageProperties().setExpiration("5000");
+                message.getMessageProperties().setHeader("x-delay", 10000);
                 return message;
             }
         };
         CorrelationData correlationData = new CorrelationData(message);
-        rabbitTemplate.convertAndSend(Constants.TTL_MSG_EXCHANGE, Constants.TTL_MSG_ROUTING, message, messagePostProcessor, correlationData);
+        rabbitTemplate.convertAndSend(Constants.DELAY_MSG_EXCHANGE, Constants.DELAY_MSG_ROUTING, message, messagePostProcessor, correlationData);
     }
 }
