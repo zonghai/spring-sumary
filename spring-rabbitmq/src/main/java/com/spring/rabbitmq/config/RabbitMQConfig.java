@@ -183,7 +183,7 @@ public class RabbitMQConfig {
     Binding delayBinding() {
         Map<String, Object> arguments = new HashMap();
         arguments.put("", "");
-        return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(Constants.DELAY_MSG_ROUTING).and(arguments);
+        return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(Constants.DELAY_MSG_ROUTING).noargs();
     }
 
 }

@@ -20,9 +20,7 @@ public class DelayProducer {
     private RabbitTemplate rabbitTemplate;
 
     /**
-     * 发消息时，设置消息过期时间
-     * expiration 字段以微秒为单位表示 TTL 值。且与 x-message-ttl 具有相同的约束条件
-     * 因为 expiration 字段必须为字符串类型，broker 将只会接受以字符串形式表达的数字
+     * 发消息时，设置延时时间
      *
      * @param message
      */

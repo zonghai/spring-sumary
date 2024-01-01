@@ -9,6 +9,8 @@ import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Component;
 
 /**
+ * 单个消费者，可以解决顺序消费的问题
+ *
  * @auth 十三先生
  * @date 2023/12/26
  * @desc

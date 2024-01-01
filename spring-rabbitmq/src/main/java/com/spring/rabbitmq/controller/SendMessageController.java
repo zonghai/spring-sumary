@@ -95,5 +95,12 @@ public class SendMessageController {
         return "success";
     }
 
+    @PostMapping("/quorum")
+    public String quorum(String message) {
+        CorrelationData correlationData = new CorrelationData(message);
+        rabbitTemplate.convertAndSend(Constants.QUORUM_MSG_EXCHANGE, Constants.QUORUM_MSG_ROUTING, message, correlationData);
+        return "success";
+    }
+
 
 }

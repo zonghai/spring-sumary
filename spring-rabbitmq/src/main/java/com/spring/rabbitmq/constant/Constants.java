@@ -65,4 +65,13 @@ public class Constants {
     public static final String DELAY_MSG_ROUTING = "delay.msg.test";
 
 
+    /**
+     * 队列类型  quorum队列
+     **/
+    public static final String QUORUM_MSG_QUEUE = "quorum.msg.test";
+    public static final String QUORUM_MSG_EXCHANGE = "quorum.msg.test";
+    public static final String QUORUM_MSG_ROUTING = "quorum.msg.test";
+
+
+
 }
