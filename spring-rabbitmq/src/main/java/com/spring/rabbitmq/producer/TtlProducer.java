@@ -2,8 +2,6 @@ package com.spring.rabbitmq.producer;
 
 import com.spring.rabbitmq.constant.Constants;
 import jakarta.annotation.Resource;
-import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -28,14 +26,11 @@ public class TtlProducer {
      * @param message
      */
     public void sendTtlMessage(String message) {
-        MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
-            @Override
-            public Message postProcessMessage(Message message) throws AmqpException {
-                message.getMessageProperties().setExpiration("5000");
-                return message;
-            }
+        MessagePostProcessor messagePostProcessors = messagePostProcessor -> {
+            messagePostProcessor.getMessageProperties().setExpiration("5000");
+            return messagePostProcessor;
         };
         CorrelationData correlationData = new CorrelationData(message);
-        rabbitTemplate.convertAndSend(Constants.TTL_MSG_EXCHANGE, Constants.TTL_MSG_ROUTING, message, messagePostProcessor, correlationData);
+        rabbitTemplate.convertAndSend(Constants.TTL_MSG_EXCHANGE, Constants.TTL_MSG_ROUTING, message, messagePostProcessors, correlationData);
     }
 }

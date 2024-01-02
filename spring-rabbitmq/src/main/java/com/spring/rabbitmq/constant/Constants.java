@@ -71,6 +71,12 @@ public class Constants {
     public static final String QUORUM_MSG_QUEUE = "quorum.msg.test";
     public static final String QUORUM_MSG_EXCHANGE = "quorum.msg.test";
     public static final String QUORUM_MSG_ROUTING = "quorum.msg.test";
+    /**
+     * 队列类型  惰性队列
+     **/
+    public static final String LAZY_MSG_QUEUE = "lazy.msg.test";
+    public static final String LAZY_MSG_EXCHANGE = "lazy.msg.test";
+    public static final String LAZY_MSG_ROUTING = "lazy.msg.test";
 
 
 

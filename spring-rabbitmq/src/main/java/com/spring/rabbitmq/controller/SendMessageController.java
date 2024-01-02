@@ -102,5 +102,11 @@ public class SendMessageController {
         return "success";
     }
 
+    @PostMapping("/lazy")
+    public String lazy(String message) {
+        CorrelationData correlationData = new CorrelationData(message);
+        rabbitTemplate.convertAndSend(Constants.LAZY_MSG_EXCHANGE, Constants.LAZY_MSG_ROUTING, message, correlationData);
+        return "success";
+    }
 
 }
