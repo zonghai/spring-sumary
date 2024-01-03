@@ -1,5 +1,6 @@
 package com.spring.rabbitmq.producer;
 
+import com.spring.rabbitmq.constant.Constants;
 import jakarta.annotation.Resource;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -24,7 +25,7 @@ public class TransactionProducer {
         //捕获异常不抛出，消息会发送成功的。
         try {
             CorrelationData correlationData = new CorrelationData(message);
-            rabbitTemplate.convertAndSend("test.exchange", "test.routing", message, correlationData);
+            rabbitTemplate.convertAndSend(Constants.TRANSACTION_EXCHANGE, Constants.TRANSACTION_ROUTING, message, correlationData);
             throw new RuntimeException("异常了");
         } catch (Exception e) {
 
