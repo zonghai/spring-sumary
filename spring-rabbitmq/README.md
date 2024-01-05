@@ -27,6 +27,7 @@
 
 **单活消费者**
     
+    保证消费顺序
     表示队列中可以注册多个消费者，但是只允许一个消费者消费消息，只有在此消费者出现异常时，才会自动转移到另一个消费者进行消费。
     单一活跃消费者适用于需要保证消息消费顺序性，同时提供高可靠能力的场景
     使用注解的方式如下
@@ -45,8 +46,16 @@
     参考类 MessageListener
     写代码时，最好对ack和nack方法单独定义，进行trycatch。
     对于一些重要的业务场景，注意幂等。
+**同步消息**
+    
+    rabbitTemplate.convertSendAndReceive
+    时效性较强，可以立即得到结果
+    耦合度高 (违背开闭原则)
+    性能和吞吐能力下降 (按顺序一个个请求，总耗时等于所有微服务请求响应时间之和)
+    有额外的资源消耗 (等待下游业务响应得一直干等着，啥也不能干)
+    有级联失败问题 (某个微服务挂了，凡是调用链中包含该微服务的都会卡死在这里,越来越多，多米诺效应(同步请求未成功会卡死在这里，卡死的请求多了就麻烦了))
 
-消息确认机制
+**消息确认机制**
     
     消费者ack(acknowledge，确认or回执)机制
         消费者处理完消息后 进行确认，或处理异常进行nack ；确认方式： auto-自动确认 mq Push消息后进行ack ，manual-手动确认
@@ -62,6 +71,8 @@
     rabbitTemplate.setChannelTransacted(Boolean.TRUE); 
     并且新建事务管理器 RabbitTransactionManager
     再发送消息的方法加注解 @Transactional(rollbackFor = Exception.class,transactionManager = "rabbitTransactionManager")
+    事务确实能够解决producer与broker之间消息确认的问题，只有消息成功被broker接受，事务提交才能成功，
+    否则我们便可以在捕获异常进行事务回滚操作同时进行消息重发。
 
 **exchange**
 

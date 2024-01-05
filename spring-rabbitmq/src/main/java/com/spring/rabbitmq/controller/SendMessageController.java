@@ -46,15 +46,14 @@ public class SendMessageController {
     //发送事务消息
     @PostMapping("/transaction")
     public String transaction(String message) {
-        //带有发送确认的方式。
-
+        //spring.rabbitmq.publisher-confirms一定要配置为false，否则会与事务处理相冲突，启动时会报异常
+        //事务消息成功保证消息一定发送到broker。
         transactionProducer.sendMessage(message);
         return "success";
     }
 
     @PostMapping("/direct")
     public String direct(String message) {
-        //带有发送确认的方式。
         //带有发送确认的方式。
         CorrelationData correlationData = new CorrelationData(message);
         rabbitTemplate.convertAndSend(Constants.EXCHANGE, Constants.ROUTING, message, correlationData);
@@ -104,9 +103,19 @@ public class SendMessageController {
 
     @PostMapping("/lazy")
     public String lazy(String message) {
+        //惰性队列，消息现存磁盘，需要消费时再加载到内存中。
         CorrelationData correlationData = new CorrelationData(message);
         rabbitTemplate.convertAndSend(Constants.LAZY_MSG_EXCHANGE, Constants.LAZY_MSG_ROUTING, message, correlationData);
         return "success";
     }
+
+    @PostMapping("/sync")
+    public String sync(String message) {
+        //带有发送确认的方式。result为Listener的返回值。
+        CorrelationData correlationData = new CorrelationData(message);
+        Object result = rabbitTemplate.convertSendAndReceive(Constants.EXCHANGE, Constants.ROUTING, message, correlationData);
+        return "success" + result.toString();
+    }
+
 
 }

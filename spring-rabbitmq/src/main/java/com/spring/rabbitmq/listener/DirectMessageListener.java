@@ -39,7 +39,7 @@ public class DirectMessageListener {
 
 
     @RabbitListener(queues = Constants.QUEUE)
-    public void configTest(Channel channel, Message message) {
+    public String direct(Channel channel, Message message) {
         try {
             logger.info("queue ={}, msg={}", Constants.QUEUE, new String(message.getBody()));
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), Boolean.FALSE);
@@ -50,6 +50,7 @@ public class DirectMessageListener {
                 throw new RuntimeException(ex);
             }
         }
+        return new String(message.getBody());
     }
 
 
