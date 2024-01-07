@@ -13,7 +13,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @EnableAdminServer
 @SpringBootApplication
-
 public class FlowControlApplication {
 
     public static void main(String[] args) {
