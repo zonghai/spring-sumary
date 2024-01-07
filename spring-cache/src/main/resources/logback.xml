@@ -36,7 +36,7 @@
     </appender>
 
     <logger name="org.springframework" level="INFO" />
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="FILE_INFO" />
         <appender-ref ref="FILE_ERROR" />
         <appender-ref ref="STDOUT"/>
