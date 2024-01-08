@@ -109,6 +109,7 @@ public class SendMessageController {
         return "success";
     }
 
+
     @PostMapping("/sync")
     public String sync(String message) {
         //带有发送确认的方式。result为Listener的返回值。

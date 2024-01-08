@@ -34,21 +34,23 @@
     arguments = {@Argument(name = "x-single-active-consumer",value = "true",type = "java.lang.Boolean")}
     代码方式
     单个消费者，可以解决顺序消费的问题（相比RocketMQ，并发性比较差。）
-
+    消费消息时，若抛出异常，不进行处理，并nack时 requeue =true，消息回到队列头部，可以 ack 重新发消息到队列的尾部
 **消费方式-Pull**
 
     使用场景：有些情况下推模式并不适用的，由于某些限制，消费者在某个条件成立时才能消费消息
     一次只拉取一条消息进行消费。
     参考类：PullMessageController PullMessageListener两个类
-
+    消费消息时，若抛出异常，不进行处理，并nack时 requeue =true，消息回到队列头部，可以 ack 重新发消息到队列的尾部
 **消费方式-Push**
 
     参考类 MessageListener
     写代码时，最好对ack和nack方法单独定义，进行trycatch。
     对于一些重要的业务场景，注意幂等。
+    消费消息时，若抛出异常，不进行处理，并nack时 requeue =true，消息回到队列头部，可以 ack 重新发消息到队列的尾部
+
 **同步消息**
     
-    rabbitTemplate.convertSendAndReceive
+    rabbitTemplate.convertSendAndReceive;消费者有返回值or空。
     时效性较强，可以立即得到结果
     耦合度高 (违背开闭原则)
     性能和吞吐能力下降 (按顺序一个个请求，总耗时等于所有微服务请求响应时间之和)

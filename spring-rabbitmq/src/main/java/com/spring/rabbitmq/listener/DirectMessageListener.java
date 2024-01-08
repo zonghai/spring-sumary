@@ -37,11 +37,15 @@ public class DirectMessageListener {
         }
     }
 
-
+    //一般消费者的方法都是空
+    // 方法返回值不为空报错 Cannot determine ReplyTo message property value: Request message does not contain reply-to property, and no default response Exchange was set
+    // 有返回值的情况，一般都是在同步调用的时候会是这样。参考 /sync
     @RabbitListener(queues = Constants.QUEUE)
-    public String direct(Channel channel, Message message) {
+    public void direct(Channel channel, Message message) {
         try {
-            logger.info("queue ={}, msg={}", Constants.QUEUE, new String(message.getBody()));
+            logger.info("queue ={}, msg={},redeliver={}", Constants.QUEUE, new String(message.getBody()), message.getMessageProperties().getRedelivered());
+            //消费消息是，若抛出异常，不进行处理，并nack时 requeue =true，消息回到队列头部，可以 ack 重新发消息到队列的尾部
+//            int a = 1 / 0;
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), Boolean.FALSE);
         } catch (Exception e) {
             try {
@@ -50,7 +54,6 @@ public class DirectMessageListener {
                 throw new RuntimeException(ex);
             }
         }
-        return new String(message.getBody());
     }
 
 
