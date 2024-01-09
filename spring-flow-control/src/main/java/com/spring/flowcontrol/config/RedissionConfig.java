@@ -1,5 +1,6 @@
-package com.spring.cache.config;
+package com.spring.flowcontrol.config;
 
+import jakarta.annotation.Resource;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.codec.JsonJacksonCodec;
@@ -8,11 +9,9 @@ import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
-
 /**
  * @auth 十三先生
- * @date 2024/1/7
+ * @date 2024/1/9
  * @desc
  */
 @Configuration
@@ -29,7 +28,7 @@ public class RedissionConfig {
                 .setPassword(redisProperties.getPassword())
                 .setConnectionMinimumIdleSize(1)
                 .setConnectionPoolSize(5)
-                .setTimeout(200)// Redis server response timeout. Starts to countdown when Redis command has been successfully sent.
+                .setTimeout(200)
         ;
         config.setCodec(new JsonJacksonCodec());
         return Redisson.create(config);
