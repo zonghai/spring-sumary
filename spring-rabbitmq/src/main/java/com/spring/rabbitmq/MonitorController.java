@@ -13,9 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MonitorController {
 
-    @GetMapping("monitor")
+    @GetMapping("/monitor")
     public String monitor() {
         return "I'm alive.";
     }
+
+    @GetMapping("/health")
+    public String health() {
+        return "I'm alive.";
+    }
+
 
 }
