@@ -159,3 +159,14 @@
 **Spring RabbitMQ属性配置说明**
     
     https://www.bilibili.com/read/cv12580605/
+
+Prometheus和grafana监控
+    
+    Prometheus和grafana 下载时选择  darwin-amd64
+    启动命令
+    sudo spctl --master-disable
+    /Users/zonghai/tools/prometheus-2.45.2.darwin-amd64/prometheus --config.file=/Users/zonghai/tools/prometheus-2.45.2.darwin-amd64/prometheus.yml &
+    /Users/zonghai/tools/grafana-10.0.0/bin/grafana-server --config=/Users/zonghai/tools/grafana-10.0.0/conf/defaults.ini --homepath=/Users/zonghai/tools/grafana-10.0.0 &
+    prometheus 启动后访问地址 localhost:9090
+    grafana 启动后访问地址 localhost:3000 用户名/密码amin/admin
+    监控模板：12900：SpringBoot Dashboard
